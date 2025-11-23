@@ -135,6 +135,10 @@ h1 {
     font-size: 14px;
 }
 
+.success-message {
+    color: #28a745;
+}
+
 .header {
     display: flex;
     justify-content: space-between;

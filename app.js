@@ -99,8 +99,9 @@ function handleRegister() {
     users.push(newUser);
     saveUsers(users);
     
-    showLoginError('Registration successful! Please login.');
-    document.getElementById('login-error').style.color = '#28a745';
+    const errorElement = document.getElementById('login-error');
+    errorElement.textContent = 'Registration successful! Please login.';
+    errorElement.className = 'success-message';
 }
 
 // Handle logout
@@ -148,7 +149,7 @@ function handleTodoSubmit(e) {
     } else {
         // Add new task
         const newTodo = {
-            id: Date.now(),
+            id: generateUniqueId(),
             title,
             description,
             createdAt: new Date().toISOString(),
@@ -259,8 +260,9 @@ function renderTodos() {
 function showLoginScreen() {
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('todo-screen').classList.add('hidden');
-    document.getElementById('login-error').textContent = '';
-    document.getElementById('login-error').style.color = '#dc3545';
+    const errorElement = document.getElementById('login-error');
+    errorElement.textContent = '';
+    errorElement.className = 'error-message';
 }
 
 // Show todo screen
@@ -274,7 +276,18 @@ function showTodoScreen() {
 
 // Show login error
 function showLoginError(message) {
-    document.getElementById('login-error').textContent = message;
+    const errorElement = document.getElementById('login-error');
+    errorElement.textContent = message;
+    errorElement.className = 'error-message';
+}
+
+// Generate unique ID for tasks
+function generateUniqueId() {
+    // Use crypto.randomUUID() if available, otherwise fall back to timestamp + random
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+    return Date.now() + '-' + Math.random().toString(36).substr(2, 9);
 }
 
 // Get users from storage
